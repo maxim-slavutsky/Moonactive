@@ -9,7 +9,7 @@
     "lint": "eslint {src,test,config}/**/*.js"
   },
   "dependencies": {
-
+    "eslint": "^6.3.0"
   },
   "repository": {
     "type": "git",
