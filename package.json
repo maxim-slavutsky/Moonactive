@@ -1,0 +1,27 @@
+{
+  "name": "moonactive",
+  "version": "0.0.1",
+  "description": "Test assignment for Moonactive interview",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "npm run test:all",
+    "lint": "eslint {src,test,config}/**/*.js"
+  },
+  "dependencies": {
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxim-slavutsky/Moonactive.git"
+  },
+  "keywords": [
+    "test"
+  ],
+  "author": "Maxim Slavutsky",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/maxim-slavutsky/Moonactive/issues"
+  },
+  "homepage": "https://github.com/maxim-slavutsky/Moonactive#readme"
+}
