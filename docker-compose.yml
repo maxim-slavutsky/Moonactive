@@ -1,0 +1,13 @@
+# For development purposes only - do not use in production
+version: '3'
+services:
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+#  api:
+#    image: node:8.16.1-alpine
+#    command: node /app/index.js
+#    volumes:
+#      - ./:/app
+
