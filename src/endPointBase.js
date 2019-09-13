@@ -1,13 +1,29 @@
 const schemaValidator = require('jsonschema');
 
+/**
+ *
+ */
 class EndPointBase {
     validateRequest(request, schema) {
-        return true;
+        debugger;
+        let valid = schemaValidator.validate(request, schema);
+        return valid;
+    }
+
+    formatValidationErrors(validationResult) {
+        let errors = {};
+        validationResult.errors.forEach((error)=>{
+            errors[error.argument] = error.message;
+        });
+
+        return errors;
     }
 
     createMethod(func, validationSchema){
         return (data, callback) => {
-            if (this.validateRequest(data, validationSchema)){
+            let validationResult = this.validateRequest(data, validationSchema);
+
+            if (validationResult.errors.length == 0){
                 let responseData = func(data);
 
                 callback(null, {
@@ -18,9 +34,10 @@ class EndPointBase {
 
             callback(null, {
                 valid : false,
-                message : 'request validation failed'
+                message : 'request validation failed',
+                errors : this.formatValidationErrors(validationResult)
             });
-        }
+        };
     }
 }
 

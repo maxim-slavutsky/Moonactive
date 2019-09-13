@@ -8,6 +8,9 @@ function log(msg, level){
     console[level](getNowFormatted() + ': ' + msg);
 }
 
+/**
+ *
+ */
 class Logger {
     warn(msg){
         log(msg, 'warn');

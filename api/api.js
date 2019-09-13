@@ -15,11 +15,11 @@ class Api extends Base {
 
         // Init Express webapp
         this.webApp = express();
-        this.webApp.use(bodyParser.urlencoded({extended: true}))
-        this.webApp.use(bodyParser.json())
+        this.webApp.use(bodyParser.urlencoded({extended: true}));
+        this.webApp.use(bodyParser.json());
 
         this.initialized = false;
-    };
+    }
 
     start(){
         if (!this.initialized){
@@ -28,7 +28,7 @@ class Api extends Base {
             this.loadMethods()
                 .then(() => {
                     this.initialized = true;
-                    let x = this.webApp.listen(this.port)
+                    let x = this.webApp.listen(this.port);
                     this.logger.log(`API is up and listening on port ${this.port}`);
                 })
                 .catch((err) => {
@@ -39,11 +39,11 @@ class Api extends Base {
         }
 
         this.logger.warn('API is already up and listening');
-    };
+    }
 
     loadMethods(){
-        var promise = new Promise((resolve , reject) => {
-            let methodsPath = path.join(__dirname, 'methods');
+        var promise = new Promise((resolve, reject) => {
+            let methodsPath = path.join(__dirname, 'endpoints');
 
             fs.readdir(methodsPath, (err, files) => {
                 if (!err){
@@ -54,20 +54,20 @@ class Api extends Base {
                     return;
                 }
 
-                reject(Error("Failed to read methods directory. " + err.message))
+                reject(Error('Failed to read methods directory. ' + err.message));
             });
         });
 
         return promise;
-    };
+    }
 
     addApiEndpoint(fileName) {
-        let endPoint = require('./methods/' + fileName);
+        let endPoint = require('./endpoints/' + fileName);
 
         if (endPoint instanceof EndPointBase){
-            let endPointName = '/' + fileName.replace(/\.[^/.]+$/, "");
+            let endPointName = '/' + fileName.replace(/\.[^/.]+$/, '');
 
-            this.webApp.post(endPointName, jayson.server(endPoint).middleware())
+            this.webApp.post(endPointName, jayson.server(endPoint).middleware());
         }
     }
 }
