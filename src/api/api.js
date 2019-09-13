@@ -3,8 +3,8 @@ const fs = require('fs'),
     express = require('express'),
     bodyParser = require('body-parser'),
     jayson = require('jayson'),
-    Base = require('../src/base.js'),
-    EndPointBase = require('../src/endPointBase');
+    Base = require('../abstract/base.js'),
+    EndPointBase = require('../abstract/endPointBase');
 
 class Api extends Base {
     constructor(port) {

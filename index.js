@@ -1,9 +1,22 @@
-console.log('Starting service');
+const Base = require('./src/abstract/base.js'),
+    Api = require('./src/api/api'),
+    Scheduler = require('./src/scheduler/scheduler'),
+    config = require('./config/app_conf');
 
-const apiClass = require('./api/api'),
-    scheduler = require('./scheduler/scheduler'),
-    api = new apiClass(5555);
+class Main extends Base {
+    constructor(){
+        super();
 
-api.start();
+        this.logger.log('Starting service');
+
+        this.api = new Api(config.API_PORT);
+        this.api.start();
+
+        this.scheduler = new Scheduler();
+        this.scheduler.start();
+    }
+}
+
+new Main();
 
 

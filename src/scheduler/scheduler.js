@@ -1,5 +1,5 @@
-const config = require('../config/app_conf'),
-    Base = require('../src/base.js'),
+const config = require('../../config/app_conf'),
+    Base = require('../abstract/base.js'),
     redis = require('../infrastructure/redis/connector'),
     EventModel = require('../model/event');
 
@@ -15,7 +15,9 @@ class Scheduler extends Base {
         this.messageIdToStartListen = '>';
 
         this.createGroup();
+    }
 
+    start(){
         this.recover();
 
         this.readStream();
@@ -30,7 +32,7 @@ class Scheduler extends Base {
     }
 
     recover(){
-        this.logger.log(`Restoring unprocessed messages from stream for consumer ${this.streamGroupId}_${this.consumerId}`);
+        this.logger.log(`Restoring unprocessed messages from stream for consumer ${config.EVENTS_STREAM_CONSUMER_GROUP_NAME}_${this.consumerId}`);
 
         redis.client.xreadgroup('GROUP', config.EVENTS_STREAM_CONSUMER_GROUP_NAME, this.consumerId, 'STREAMS', config.EVENTS_STREAM_NAME, 0, (err, messages) => {
             if (err){
@@ -79,5 +81,5 @@ class Scheduler extends Base {
     }
 }
 
-module.exports = new Scheduler();
+module.exports = Scheduler;
 

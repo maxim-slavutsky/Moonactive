@@ -1,4 +1,4 @@
-const EndPointBase = require('../../src/endPointBase'),
+const EndPointBase = require('../../abstract/endPointBase'),
     EventModel = require('../../model/event');
 
 const add_validationSchema = {

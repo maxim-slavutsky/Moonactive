@@ -1,0 +1,41 @@
+{
+	"info": {
+		"_postman_id": "3c703f61-d5d4-4cea-aad9-edd29f8b3b4b",
+		"name": "Moonactive assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "MoonActive API - add event",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"jsonrpc\": \"2.0\", \r\n\t\"id\": 1,\r\n\t\"method\": \"add\", \r\n\t\"params\": [{\r\n        \"test\" : 1\r\n    }]\t\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5555/event",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5555",
+					"path": [
+						"event"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

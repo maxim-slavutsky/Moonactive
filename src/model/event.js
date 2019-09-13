@@ -1,5 +1,5 @@
-const config = require('../config/app_conf'),
-    ModelBase = require('../src/modelBase.js'),
+const config = require('../../config/app_conf'),
+    ModelBase = require('../abstract/modelBase.js'),
     redis = require('../infrastructure/redis/connector'),
     moment = require('moment');
 

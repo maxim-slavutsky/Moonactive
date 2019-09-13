@@ -1,4 +1,5 @@
-const Base = require('../../src/base.js');
+const Base = require('../../abstract/base.js'),
+    config = require('../../../config/app_conf');
 
 //
 class RedisConnector extends Base {
@@ -9,7 +10,7 @@ class RedisConnector extends Base {
         super();
 
         // TODO - take connection data from ENVs
-        let connectionOptions = {host : '127.0.0.1', port : 6379};
+        let connectionOptions = {host : config.REDIS_HOST, port : config.REDIS_PORT};
 
         this.options = {
             maxReconnectAttempts : 5,
