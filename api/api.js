@@ -9,8 +9,6 @@ const fs = require('fs'),
 class Api extends Base {
     constructor(port) {
         super();
-        this.logger.log('Creating API class');
-
         this.port = port;
 
         // Init Express webapp

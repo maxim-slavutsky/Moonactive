@@ -1,5 +1,5 @@
-const Base = require('../../src/base'),
-    MethodBase = require('../../src/endPointBase');
+const EndPointBase = require('../../src/endPointBase'),
+    EventModel = require('../../model/event');
 
 const add_validationSchema = {
     '$schema': 'http://json-schema.org/draft-07/schema#',
@@ -33,7 +33,7 @@ const remove_validationSchema = {
     'required': [ 'id' ]
 };
 
-class Event extends MethodBase {
+class Event extends EndPointBase {
     constructor(){
         super();
 
@@ -44,13 +44,18 @@ class Event extends MethodBase {
     }
 
     add_Implementation(data){
-        debugger;
-
+        try {
+            let event = new EventModel(data.message, data.timestamp);
+            event.stream();
+        }
+        catch(ex){
+            return this.getErrorResponse(ex.message);
+        }
     }
 
     remove_Implementation(data) {
-        debugger;
-
+        //debugger;
+        this.logger.log(data);
     }
 }
 
