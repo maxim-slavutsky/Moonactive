@@ -7,6 +7,13 @@ const config = require('../config/app_conf'),
  *
  */
 class Event extends ModelBase {
+    /**
+     * Initialize Event class
+     *
+     * @param {string} message
+     * @param {Integer} timestamp
+     * @param {?string} id
+     */
     constructor(message, timestamp, id) {
         super();
 
@@ -14,9 +21,12 @@ class Event extends ModelBase {
 
         this.timestamp = timestamp;
         this.message = message;
-        this.id = id;
+        this.id = id || '*';
     }
 
+    /**
+     * Add event to Redis stream
+     */
     stream() {
         if (!redis.isConnected){
             throw Error('Failed to stream event. DB disconnected');
@@ -35,25 +45,43 @@ class Event extends ModelBase {
         });
     }
 
-    static extractFromStream(rawArray){
+    /**
+     * Extract event data from stream message and create new Event class. Works much like a factory
+     *
+     * @param {Array} rawArray
+     * @returns {Event}
+     */
+    static extractFromStreamMessage(rawArray){
         return new Event(rawArray[1][3], Number(rawArray[1][1]), rawArray[0]);
     }
 
+    /**
+     * Create json string representation for event for pretty print
+     * @returns {string}
+     */
     toString(){
         return JSON.stringify(this, ['message', 'timestamp']);
     }
 
+    /**
+     * Execure event (print message to console) and execute callback method
+     */
     execute(){
-        this.logger.log(`EXECUTING Event ${this.id}. Saying "${this.message}"`);
+        this.logger.log(`EXECUTING Event: ${this.id}. Message: "${this.message}"`);
     }
 
+    /**
+     * Primitive implementation of event scheduling using setTimeout.
+     *
+     * @param {Function} callback
+     */
     schedule(callback){
         const now = new Date().valueOf();
 
         callback = callback || (() => {});
 
         if (this.timestamp <= now) {
-            this.logger.log('Event created in the past - immediate execution!');
+            this.logger.log('Event is created in the past run immediate execution!');
             this.execute();
             callback(this);
             return;

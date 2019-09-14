@@ -5,6 +5,9 @@ const moment = require('moment'),
  * Wrapper class for console.log with several styling enhancements
  */
 class Logger {
+    constructor(className) {
+        this.className = className;
+    }
     /**
      * Get current date and time formatted with milliseconds accuracy
      *
@@ -21,7 +24,7 @@ class Logger {
      * @param {String} level
      */
     writeLog(msg, level){
-        console[level](`POD#${config.INSTANCE_ID}|${this.getNowFormatted()}: ${msg}`);
+        console[level](`POD#${config.INSTANCE_ID}|${this.getNowFormatted()}|${this.className}: ${msg}`);
     }
 
     /**
@@ -44,11 +47,11 @@ class Logger {
     /**
      * Log message with INFO level
      *
-     * @param {String}  msg
+     * @param {String} msg
      */
     log(msg){
         this.writeLog(msg, 'info');
     }
 }
 
-module.exports = new Logger();
+module.exports = Logger;

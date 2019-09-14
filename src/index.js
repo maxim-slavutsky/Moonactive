@@ -8,7 +8,7 @@ const Base = require('./abstract/base.js'),
  */
 class Main extends Base {
     /**
-     *
+     * Initialize the class
      */
     constructor(){
         super();

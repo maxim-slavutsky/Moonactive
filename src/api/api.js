@@ -12,6 +12,7 @@ const fs = require('fs'),
  */
 class Api extends Base {
     /**
+     * Initialize  API class
      *
      * @param {Integer} port - listening port for API application
      */
@@ -29,7 +30,7 @@ class Api extends Base {
     }
 
     /**
-     *
+     * Load available endpoint classes and start listening for incoming connections
      */
     start() {
         if (!this.initialized){

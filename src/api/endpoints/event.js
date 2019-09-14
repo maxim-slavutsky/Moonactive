@@ -34,12 +34,13 @@ const removeRequestValidationSchema = {
 };
 
 /**
- * Endpoint class that implements Events API with methods for managing avents.
+ * Endpoint class that implements Events API with methods for managing events.
+ *
  * @extends EndPointBase
  */
 class Event extends EndPointBase {
     /**
-     *
+     * Initialize event model class
      */
     constructor(){
         super();

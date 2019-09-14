@@ -1,11 +1,14 @@
-const logger = require('../infrastructure/logger');
+const Logger = require('../infrastructure/logger');
 
 /**
  *
  */
 class Base {
+    /**
+     *
+     */
     constructor(){
-        this.logger = logger;
+        this.logger = new Logger(this.constructor.name);
     }
 }
 
