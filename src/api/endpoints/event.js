@@ -1,7 +1,7 @@
 const EndPointBase = require('../../abstract/endPointBase'),
     EventModel = require('../../model/event');
 
-const add_validationSchema = {
+const addRequestValidationSchema = {
     '$schema': 'http://json-schema.org/draft-07/schema#',
     '$id': 'http://example.com/product.schema.json',
     'title': 'Add new event request',
@@ -19,7 +19,7 @@ const add_validationSchema = {
     'required': [ 'message', 'timestamp' ]
 };
 
-const remove_validationSchema = {
+const removeRequestValidationSchema = {
     '$schema': 'http://json-schema.org/draft-07/schema#',
     '$id': 'http://example.com/product.schema.json',
     'title': 'Remove event request',
@@ -34,19 +34,27 @@ const remove_validationSchema = {
 };
 
 /**
- *
+ * Endpoint class that implements Events API with methods for managing avents.
+ * @extends EndPointBase
  */
 class Event extends EndPointBase {
+    /**
+     *
+     */
     constructor(){
         super();
 
         // Init instance methods (required by 'jayson' library)
         // Regular class methods cannot be used, since they are added to prototype and don't come up in hasOwnProperty
-        this.add = this.createMethod(this.add_Implementation, add_validationSchema);
-        this.remove = this.createMethod(this.remove_Implementation, remove_validationSchema);
+        this.add = this.createMethod(this.addMethodImplementation, addRequestValidationSchema);
+        this.remove = this.createMethod(this.removeMethodImplementation, removeRequestValidationSchema);
     }
 
-    add_Implementation(data){
+    /**
+     *
+     * @param {Object} data
+     */
+    addMethodImplementation(data){
         try {
             let event = new EventModel(data.message, data.timestamp);
             event.stream();
@@ -56,8 +64,11 @@ class Event extends EndPointBase {
         }
     }
 
-    remove_Implementation(data) {
-        //debugger;
+    /**
+     *
+     * @param {Object} data
+     */
+    removeMethodImplementation(data) {
         this.logger.log(data);
     }
 }

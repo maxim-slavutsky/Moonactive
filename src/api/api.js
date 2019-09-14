@@ -6,9 +6,18 @@ const fs = require('fs'),
     Base = require('../abstract/base.js'),
     EndPointBase = require('../abstract/endPointBase');
 
+/**
+ * Main API class that proves resolving and wrapping of various endpoints and methods.
+ * New endpoint can be implemented and placed in `endpoints` folder
+ */
 class Api extends Base {
+    /**
+     *
+     * @param {Integer} port - listening port for API application
+     */
     constructor(port) {
         super();
+
         this.port = port;
 
         // Init Express webapp
@@ -19,7 +28,10 @@ class Api extends Base {
         this.initialized = false;
     }
 
-    start(){
+    /**
+     *
+     */
+    start() {
         if (!this.initialized){
             this.logger.log('Initializing API...');
 
@@ -39,7 +51,11 @@ class Api extends Base {
         this.logger.warn('API is already up and listening');
     }
 
-    loadMethods(){
+    /**
+     *
+     * @returns {Promise}
+     */
+    loadMethods() {
         return new Promise((resolve, reject) => {
             let methodsPath = path.join(__dirname, 'endpoints');
 
@@ -57,6 +73,10 @@ class Api extends Base {
         });
     }
 
+    /**
+     *
+     * @param {String} fileName
+     */
     addApiEndpoint(fileName) {
         let endPoint = require('./endpoints/' + fileName);
 

@@ -3,6 +3,7 @@ const Base = require('../../abstract/base.js'),
 
 /**
  *
+ * @extends Base
  */
 class RedisConnector extends Base {
     /**
@@ -11,7 +12,6 @@ class RedisConnector extends Base {
     constructor() {
         super();
 
-        // TODO - take connection data from ENVs
         let connectionOptions = {host : config.REDIS_HOST, port : config.REDIS_PORT};
 
         this.options = {
@@ -26,7 +26,7 @@ class RedisConnector extends Base {
     }
 
     /**
-     *
+     * Add new set of commands to Redis interface in order to enable Streams manipulations
      */
     addCommands(){
         this.redis.add_command('xadd');
@@ -64,10 +64,12 @@ class RedisConnector extends Base {
 
     /**
      *
-     * @param err
+     * @param {Error} err
      */
     onError(err) {
         if (err.syscall === 'connect' ) {
+            this.isConnected = false;
+
             if (this.reconnectAttempts >= this.options.maxReconnectAttempts){
                 this.logger.error(`Failed to connect to Redis after ${this.options.maxReconnectAttempts} attempts. Exiting!`);
 
@@ -94,6 +96,15 @@ class RedisConnector extends Base {
         this.client.xadd(streamName, id, ...params, callback);
     }
 
+    /**
+     *
+     * @param groupName
+     * @param consumerId
+     * @param count
+     * @param streamName
+     * @param messageId
+     * @param callback
+     */
     readFromQueue(groupName, consumerId, count, streamName, messageId, callback){
         let params =['GROUP', groupName, consumerId];
 
@@ -104,6 +115,27 @@ class RedisConnector extends Base {
         params.push('STREAMS', streamName, messageId, callback);
 
         this.client.xreadgroup(...params);
+    }
+
+    /**
+     *
+     * @param streamName
+     * @param consumerId
+     * @param callback
+     */
+    addGroup(streamName, consumerId, callback){
+        this.client.xgroup('CREATE', streamName, consumerId, '$', 'MKSTREAM', callback);
+    }
+
+    /**
+     *
+     * @param streamName
+     * @param groupName
+     * @param msgId
+     * @param callback
+     */
+    acknowledgeMessage(streamName, groupName, msgId, callback){
+        this.client.xack(streamName, groupName, msgId, callback);
     }
 }
 

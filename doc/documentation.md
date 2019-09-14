@@ -37,7 +37,9 @@
 
 ## `Api`
 
-### `constructor()`
+Main API class that proves resolving and wrapping of various endpoints and methods. New endpoint can be implemented and placed in `endpoints` folder
+
+### `constructor(port: Integer)`
 
 ### `port: *`
 
@@ -50,17 +52,20 @@
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
 
-### `loadMethods()`
+### `loadMethods(): Promise`
 
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
 
-### `addApiEndpoint()`
+### `addApiEndpoint(fileName: String)`
 
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
+| fileName | String |  |
 
 ## `Event`
+
+Endpoint class that implements Events API with methods for managing avents.
 
 ### `constructor()`
 
@@ -68,15 +73,17 @@
 
 ### `remove: *`
 
-### `add_Implementation()`
+### `addMethodImplementation(data: Object)`
 
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
+| data | Object |  |
 
-### `remove_Implementation()`
+### `removeMethodImplementation(data: Object)`
 
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
+| data | Object |  |
 
 ## `Main`
 
@@ -90,20 +97,47 @@ Main class for Moonactive test assignment. Creates API and Scheduler objects.
 
 ## `Logger`
 
-### `warn()`
+Wrapper class for console.log with several styling enhancements
+
+### `getNowFormatted(): string`
+
+Get current date and time formatted with milliseconds accuracy
 
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
 
-### `error()`
+### `writeLog(msg: String, level: String)`
+
+Print log to console implementation
 
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
+| msg | String |  |
+| level | String |  |
 
-### `log()`
+### `warn(msg: String)`
+
+Log message with WARNING level
 
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
+| msg | String |  |
+
+### `error(msg: String)`
+
+Log message with ERROR level
+
+| Name | Type | Attribute | Description |
+| --- | --- | --- | --- |
+| msg | String |  |
+
+### `log(msg: String)`
+
+Log message with INFO level
+
+| Name | Type | Attribute | Description |
+| --- | --- | --- | --- |
+| msg | String |  |
 
 ## `RedisConnector`
 
@@ -123,6 +157,8 @@ Constructor method
 
 ### `addCommands()`
 
+Add new set of commands to Redis interface in order to enable Streams manipulations
+
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
 
@@ -131,11 +167,11 @@ Constructor method
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
 
-### `onError(err: *)`
+### `onError(err: Error)`
 
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
-| err | * |  |
+| err | Error |  |
 
 ### `addToQueue(streamName: string, id: string, params: Array, callback: Function)`
 
@@ -146,10 +182,33 @@ Constructor method
 | params | Array |  |
 | callback | Function |  |
 
-### `readFromQueue()`
+### `readFromQueue(groupName: *, consumerId: *, count: *, streamName: *, messageId: *, callback: *)`
 
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
+| groupName | * |  |
+| consumerId | * |  |
+| count | * |  |
+| streamName | * |  |
+| messageId | * |  |
+| callback | * |  |
+
+### `addGroup(streamName: *, consumerId: *, callback: *)`
+
+| Name | Type | Attribute | Description |
+| --- | --- | --- | --- |
+| streamName | * |  |
+| consumerId | * |  |
+| callback | * |  |
+
+### `acknowledgeMessage(streamName: *, groupName: *, msgId: *, callback: *)`
+
+| Name | Type | Attribute | Description |
+| --- | --- | --- | --- |
+| streamName | * |  |
+| groupName | * |  |
+| msgId | * |  |
+| callback | * |  |
 
 ## `Event`
 
@@ -217,19 +276,10 @@ Constructor method
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
 
-### `acknowledgeMessage()`
+### `acknowledgeMessage(event: Object)`
 
 | Name | Type | Attribute | Description |
 | --- | --- | --- | --- |
+| event | Object |  |
 
 # Function
-
-## `getNowFormatted()`
-
-| Name | Type | Attribute | Description |
-| --- | --- | --- | --- |
-
-## `log()`
-
-| Name | Type | Attribute | Description |
-| --- | --- | --- | --- |

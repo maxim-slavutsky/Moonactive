@@ -8,7 +8,7 @@
     "test": "npm run test:all",
     "lint": "eslint ./src/. --ext .js && eslint ./tests/. --ext .js",
     "test:unit": "mocha --opts tests/mocha.opts.unit",
-    "docs": "jsdoc -r ./src -d ./docs"
+    "docs": "esdoc"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

@@ -22,7 +22,7 @@ class Scheduler extends Base {
     }
 
     createGroup(){
-        redis.client.xgroup('CREATE', config.EVENTS_STREAM_NAME, config.EVENTS_STREAM_CONSUMER_GROUP_NAME, '$', 'MKSTREAM', (err) => {
+        redis.addGroup(config.EVENTS_STREAM_NAME, config.EVENTS_STREAM_CONSUMER_GROUP_NAME, (err) => {
             if (err){
                 this.logger.warn(`Failed to create consumer group '${config.EVENTS_STREAM_CONSUMER_GROUP_NAME}'. ${err.message}`);
             }
@@ -72,8 +72,12 @@ class Scheduler extends Base {
         });
     }
 
+    /**
+     *
+     * @param {Object} event
+     */
     acknowledgeMessage(event){
-        redis.client.xack(config.EVENTS_STREAM_NAME, config.EVENTS_STREAM_CONSUMER_GROUP_NAME, event.id, () => {
+        redis.acknowledgeMessage(config.EVENTS_STREAM_NAME, config.EVENTS_STREAM_CONSUMER_GROUP_NAME, event.id, () => {
             // TODO - handle failed acknowledges
         });
     }
