@@ -5,28 +5,34 @@ services:
     image: redis
     ports:
       - "6379:6379"
+  nginx:
+    image: nginx
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./load_balancer:/etc/nginx/conf.d
   api1:
     image: node:12.10.0-alpine
-    command: node /app/index.js
+    command: node /app/src/index.js
     environment:
       INSTANCE_ID : 1
-      API_PORT : 5555
+      API_PORT : 5001
       REDIS_HOST : redis
       REDIS_PORT : 6379
     ports:
-      - "5555:5555"
+      - "5001:5001"
     volumes:
       - ./:/app
   api2:
     image: node:12.10.0-alpine
-    command: node /app/index.js
+    command: node /app/src/index.js
     environment:
       INSTANCE_ID : 2
-      API_PORT : 5556
+      API_PORT : 5002
       REDIS_HOST : redis
       REDIS_PORT : 6379
     ports:
-      - "5556:5556"
+      - "5002:5002"
     volumes:
       - ./:/app
 
