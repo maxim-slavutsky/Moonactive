@@ -5,14 +5,13 @@ const schemaValidator = require('jsonschema');
  */
 class EndPointBase {
     validateSchema(obj, schema) {
-        let valid = schemaValidator.validate(obj, schema);
-        return valid;
+        return schemaValidator.validate(obj, schema);
     }
 
     formatValidationErrors(validationResult) {
         let errors = {};
         validationResult.errors.forEach((error)=>{
-            errors[error.argument] = error.message;
+            errors[error.property] = error.message;
         });
 
         return errors;
@@ -22,7 +21,7 @@ class EndPointBase {
         return (data, callback) => {
             let validationResult = this.validateSchema(data, validationSchema);
 
-            if (validationResult.errors.length == 0){
+            if (validationResult.errors.length === 0){
                 let responseData = func.call(this, data);
 
                 callback(null, {

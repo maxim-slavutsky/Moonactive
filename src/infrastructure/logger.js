@@ -6,7 +6,7 @@ function getNowFormatted(){
 }
 
 function log(msg, level){
-    console[level](`POD#${config.INSTANCE_ID} - ${getNowFormatted()}: ${msg}`);
+    console[level](`POD#${config.INSTANCE_ID}|${getNowFormatted()}: ${msg}`);
 }
 
 /**

@@ -12,9 +12,9 @@ class Api extends Base {
         this.port = port;
 
         // Init Express webapp
-        this.webApp = express();
-        this.webApp.use(bodyParser.urlencoded({extended: true}));
-        this.webApp.use(bodyParser.json());
+        this.webApp = express()
+            .use(bodyParser.urlencoded({extended: true}))
+            .use(bodyParser.json());
 
         this.initialized = false;
     }
@@ -26,7 +26,7 @@ class Api extends Base {
             this.loadMethods()
                 .then(() => {
                     this.initialized = true;
-                    let x = this.webApp.listen(this.port);
+                    this.webApp.listen(this.port);
                     this.logger.log(`API is up and listening on port ${this.port}`);
                 })
                 .catch((err) => {
@@ -40,7 +40,7 @@ class Api extends Base {
     }
 
     loadMethods(){
-        var promise = new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             let methodsPath = path.join(__dirname, 'endpoints');
 
             fs.readdir(methodsPath, (err, files) => {
@@ -55,8 +55,6 @@ class Api extends Base {
                 reject(Error('Failed to read methods directory. ' + err.message));
             });
         });
-
-        return promise;
     }
 
     addApiEndpoint(fileName) {

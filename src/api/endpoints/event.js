@@ -33,6 +33,9 @@ const remove_validationSchema = {
     'required': [ 'id' ]
 };
 
+/**
+ *
+ */
 class Event extends EndPointBase {
     constructor(){
         super();

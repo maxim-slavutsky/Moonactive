@@ -1,0 +1,12 @@
+{
+    "source": "./src",
+    "destination": "./doc",
+    "plugins": [
+        {
+            "name": "esdoc-publish-markdown-plugin",
+            "option": {
+                "filename":"documentation.md"
+            }
+        }
+    ]
+}

@@ -1,4 +1,4 @@
-const config = require('../../config/app_conf'),
+const config = require('../config/app_conf'),
     Base = require('../abstract/base.js'),
     redis = require('../infrastructure/redis/connector'),
     EventModel = require('../model/event');
@@ -11,8 +11,6 @@ class Scheduler extends Base {
         super();
 
         this.consumerId = 'consumer_' + config.INSTANCE_ID;
-
-        this.messageIdToStartListen = '>';
 
         this.createGroup();
     }
@@ -34,7 +32,7 @@ class Scheduler extends Base {
     recover(){
         this.logger.log(`Restoring unprocessed messages from stream for consumer ${config.EVENTS_STREAM_CONSUMER_GROUP_NAME}_${this.consumerId}`);
 
-        redis.client.xreadgroup('GROUP', config.EVENTS_STREAM_CONSUMER_GROUP_NAME, this.consumerId, 'STREAMS', config.EVENTS_STREAM_NAME, 0, (err, messages) => {
+        redis.readFromQueue(config.EVENTS_STREAM_CONSUMER_GROUP_NAME, this.consumerId, 0, config.EVENTS_STREAM_NAME, 0, (err, messages) => {
             if (err){
                 this.logger.warn('Failed to read messages to recover');
                 return;
@@ -47,7 +45,7 @@ class Scheduler extends Base {
     }
 
     readStream(){
-        redis.client.xreadgroup('GROUP', config.EVENTS_STREAM_CONSUMER_GROUP_NAME, this.consumerId, 'COUNT', 1, 'STREAMS', config.EVENTS_STREAM_NAME, this.messageIdToStartListen, (err, messages) => {
+        redis.readFromQueue(config.EVENTS_STREAM_CONSUMER_GROUP_NAME, this.consumerId, 1, config.EVENTS_STREAM_NAME, false, (err, messages) => {
             if (err) {
                 this.logger.warn(`Failed to read events. ${err.message}`);
             }

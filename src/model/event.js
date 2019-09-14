@@ -1,4 +1,4 @@
-const config = require('../../config/app_conf'),
+const config = require('../config/app_conf'),
     ModelBase = require('../abstract/modelBase.js'),
     redis = require('../infrastructure/redis/connector'),
     moment = require('moment');
@@ -23,7 +23,8 @@ class Event extends ModelBase {
         }
 
         this.logger.log(`Streaming new event "${this.message}" at ${moment(this.timestamp).format('YYYY-MM-DD HH:mm:ss.SSS')}`);
-        redis.client.xadd(config.EVENTS_STREAM_NAME, '*', 'timestamp', this.timestamp, 'message', this.message, (err, msgId) => {
+
+        redis.addToQueue(config.EVENTS_STREAM_NAME, null, ['timestamp', this.timestamp, 'message', this.message], (err, msgId) => {
             if (err){
                 throw Error(`Failed to stream event, ${err.message}`);
             }

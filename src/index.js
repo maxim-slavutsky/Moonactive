@@ -1,9 +1,15 @@
-const Base = require('./src/abstract/base.js'),
-    Api = require('./src/api/api'),
-    Scheduler = require('./src/scheduler/scheduler'),
+const Base = require('./abstract/base.js'),
+    Api = require('./api/api'),
+    Scheduler = require('./scheduler/scheduler'),
     config = require('./config/app_conf');
 
+/**
+ * Main class for Moonactive test assignment. Creates API and Scheduler objects.
+ */
 class Main extends Base {
+    /**
+     *
+     */
     constructor(){
         super();
 
